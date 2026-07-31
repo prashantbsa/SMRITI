@@ -3,17 +3,10 @@ export function addReportLayer(map, geojson) {
     console.log("=== Report Layer ===");
     console.log(geojson);
 
-    if (map.getSource("reports")) {
-        console.log("Source already exists");
-        return;
-    }
-
     map.addSource("reports", {
         type: "geojson",
         data: geojson
     });
-
-    console.log("Source Added");
 
     map.addLayer({
         id: "reports-circle",
@@ -22,12 +15,14 @@ export function addReportLayer(map, geojson) {
         paint: {
             "circle-radius": 10,
             "circle-color": "#ff0000",
-            "circle-stroke-width": 2,
-            "circle-stroke-color": "#ffffff"
+            "circle-stroke-color": "#ffffff",
+            "circle-stroke-width": 2
         }
     });
 
-    console.log("Layer Added");
+    // Force the source to refresh
+    map.getSource("reports").setData(geojson);
 
-    console.log(map.getStyle().layers);
+    console.log("Source:", map.getSource("reports"));
+    console.log("Layer:", map.getLayer("reports-circle"));
 }

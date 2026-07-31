@@ -32,15 +32,16 @@ export default function MapView() {
             "top-left"
         );
 
-        map.on("load", () => {
+map.on("style.load", () => {
 
-            console.log("2. Map loaded");
+    console.log("2. Style loaded");
 
-            initializeLayers(map);
+    initializeLayers(map);
 
-            console.log("3. initializeLayers finished");
+    console.log("3. initializeLayers finished");
 
-        });
+});
+
 
         return () => map.remove();
 
