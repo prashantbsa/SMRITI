@@ -19,17 +19,26 @@ export function reportsToGeoJSON(reports) {
 
             },
 
-            properties: {
+properties: {
 
-                report_id: report.report_id,
-                event_type: report.event_type || report.event,
-                source_application: report.source_application || report.source,
-                reported_by: report.reported_by,
-                observation_time: report.observation_time || report.time,
-                verification_status: report.verification_status || "UNVERIFIED",
-                confidence_score: report.confidence_score ?? 0
+    report_id: report.report_id,
 
-            }
+    event_code: report.event_code,
+
+    event_name: report.event_name,
+
+    source: report.source,
+
+    reported_by: report.reported_by,
+
+    observation_time: report.time,
+
+    verification_status: report.verification_status,
+
+    confidence_score: report.confidence_score
+
+}
+
 
         }))
 

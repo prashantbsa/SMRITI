@@ -4,15 +4,18 @@ import { addReportLayer } from "./layers/ReportLayer";
 
 export function initializeLayers(map) {
 
-    console.log("A. initializeLayers");
+    console.log("=== initializeLayers ===");
 
     const reports = ObservationService.getAllReports();
-    console.log("B. Reports:", reports);
+
+    console.log("Reports:", reports);
 
     const geojson = reportsToGeoJSON(reports);
-    console.log("C. GeoJSON:", geojson);
+
+    console.log("GeoJSON:", geojson);
 
     addReportLayer(map, geojson);
 
-    console.log("D. Report layer added");
+    console.log("ReportLayer finished");
+
 }

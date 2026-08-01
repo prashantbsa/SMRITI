@@ -20,7 +20,9 @@ export default function MapView() {
 
             center: [78.9629, 22.5937],
 
-            zoom: 4.5
+            zoom: 4.5,
+
+interactive: true,
 
         });
 

@@ -4,30 +4,46 @@ export function showReportPopup(map, feature) {
 
     const p = feature.properties;
 
-    new Popup()
+    const html = `
+        <div style="min-width:220px">
 
-        .setLngLat(feature.geometry.coordinates)
-
-        .setHTML(`
-
-            <b>${p.event_type}</b>
+            <h3>${p.event_name}</h3>
 
             <hr>
 
-            <b>Report ID</b> : ${p.report_id}<br>
+            <b>Report ID</b><br>
+            ${p.report_id}<br><br>
 
-            <b>Source</b> : ${p.source_application}<br>
+            <b>Source</b><br>
+            ${p.source}<br><br>
 
-            <b>Reported By</b> : ${p.reported_by}<br>
+            <b>Reported By</b><br>
+            ${p.reported_by}<br><br>
 
-            <b>Confidence</b> : ${p.confidence_score}%<br>
+            <b>Observation Time</b><br>
+            ${p.observation_time}<br><br>
 
-            <b>Status</b> : ${p.verification_status}<br>
+            <b>Status</b><br>
+            ${p.verification_status}<br><br>
 
-            <b>Time</b> : ${p.observation_time}
+            <b>Confidence</b><br>
+            ${p.confidence_score} %
 
-        `)
+        </div>
+    `;
 
-        .addTo(map);
+    new Popup({
+
+        closeButton: true,
+
+        closeOnClick: true
+
+    })
+
+    .setLngLat(feature.geometry.coordinates)
+
+    .setHTML(html)
+
+    .addTo(map);
 
 }

@@ -1,47 +1,62 @@
 [
   {
-    "report_id": "SMRITI-0001",
-    "source": "Citizen App",
-    "event": "Rain",
-    "reported_by": "Community",
-    "time": "2026-07-31 10:30",
-    "latitude": 28.6139,
-    "longitude": 77.2090
+    "report_id":"SMRITI-0001",
+    "event_code":"RAIN",
+    "event_name":"Rain",
+    "reported_by":"Community",
+    "source":"Citizen App",
+    "time":"2026-07-31 10:30",
+    "latitude":28.6139,
+    "longitude":77.2090,
+    "verification_status":"UNVERIFIED",
+    "confidence_score":42
   },
   {
-    "report_id": "SMRITI-0002",
-    "source": "Citizen App",
-    "event": "Lightning",
-    "reported_by": "Volunteer",
-    "time": "2026-07-31 10:40",
-    "latitude": 19.0760,
-    "longitude": 72.8777
+    "report_id":"SMRITI-0002",
+    "event_code":"LIGHTNING",
+    "event_name":"Lightning",
+    "reported_by":"Volunteer",
+    "source":"Citizen App",
+    "time":"2026-07-31 10:40",
+    "latitude":19.0760,
+    "longitude":72.8777,
+    "verification_status":"UNVERIFIED",
+    "confidence_score":61
   },
   {
-    "report_id": "SMRITI-0003",
-    "source": "Weather Reporter",
-    "event": "Snow",
-    "reported_by": "Observer",
-    "time": "2026-07-31 10:45",
-    "latitude": 31.1048,
-    "longitude": 77.1734
+    "report_id":"SMRITI-0003",
+    "event_code":"SNOW",
+    "event_name":"Snow",
+    "reported_by":"Observer",
+    "source":"Weather Reporter",
+    "time":"2026-07-31 10:45",
+    "latitude":31.1048,
+    "longitude":77.1734,
+    "verification_status":"VERIFIED",
+    "confidence_score":94
   },
   {
-    "report_id": "SMRITI-0004",
-    "source": "Citizen App",
-    "event": "Hail",
-    "reported_by": "Community",
-    "time": "2026-07-31 10:55",
-    "latitude": 26.9124,
-    "longitude": 75.7873
+    "report_id":"SMRITI-0004",
+    "event_code":"HAIL",
+    "event_name":"Hail",
+    "reported_by":"Community",
+    "source":"Citizen App",
+    "time":"2026-07-31 10:55",
+    "latitude":26.9124,
+    "longitude":75.7873,
+    "verification_status":"UNVERIFIED",
+    "confidence_score":55
   },
   {
-    "report_id": "SMRITI-0005",
-    "source": "Citizen App",
-    "event": "Fog",
-    "reported_by": "Volunteer",
-    "time": "2026-07-31 11:00",
-    "latitude": 22.5726,
-    "longitude": 88.3639
+    "report_id":"SMRITI-0005",
+    "event_code":"FOG",
+    "event_name":"Fog",
+    "reported_by":"Volunteer",
+    "source":"Citizen App",
+    "time":"2026-07-31 11:00",
+    "latitude":22.5726,
+    "longitude":88.3639,
+    "verification_status":"VERIFIED",
+    "confidence_score":88
   }
 ]
