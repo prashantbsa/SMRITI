@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { useState } from "react";
 
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -7,23 +8,69 @@ import ContextPanel from "../components/ContextPanel/ContextPanel";
 import Timeline from "../components/Timeline/Timeline";
 
 export default function MainLayout() {
-  return (
-    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
 
-      <Header />
+    const [viewMode, setViewMode] = useState("reports");
+const [timeWindow, setTimeWindow] = useState("all");
 
-      <Box sx={{ flex: 1, display: "flex" }}>
+    return (
 
-        <Sidebar />
+        <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
 
-        <MapView />
+            <Header />
 
-        <ContextPanel />
+            <Box sx={{ flex: 1, display: "flex" }}>
 
-      </Box>
+<Sidebar
+    timeWindow={timeWindow}
+    setTimeWindow={setTimeWindow}
+/>
+                <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
 
-      <Timeline />
+                    <div
+                        style={{
+                            padding: "10px",
+                            background: "#fff",
+                            borderBottom: "1px solid #ddd"
+                        }}
+                    >
 
-    </Box>
-  );
+                        <label style={{ marginRight: "20px" }}>
+                            <input
+                                type="radio"
+                                checked={viewMode === "reports"}
+                                onChange={() => setViewMode("reports")}
+                            />
+                            Weather Reports
+                        </label>
+
+                        <label>
+                            <input
+                                type="radio"
+                                checked={viewMode === "events"}
+                                onChange={() => setViewMode("events")}
+                            />
+                            Weather Events
+                        </label>
+
+                    </div>
+
+<MapView
+    viewMode={viewMode}
+    timeWindow={timeWindow}
+/>
+
+                </Box>
+
+<ContextPanel
+    timeWindow={timeWindow}
+/>
+
+            </Box>
+
+            <Timeline />
+
+        </Box>
+
+    );
+
 }

@@ -4,13 +4,16 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import { initializeLayers } from "./MapManager";
 
-export default function MapView() {
+export default function MapView({ viewMode, timeWindow }) {
+
+    console.log("Current View:", viewMode);
+    console.log("Current Time Window:", timeWindow);
 
     const container = useRef(null);
 
     useEffect(() => {
 
-        console.log("1. Creating map");
+        console.log("Creating map...");
 
         const map = new Map({
 
@@ -22,41 +25,60 @@ export default function MapView() {
 
             zoom: 4.5,
 
-interactive: true,
+            interactive: true,
 
         });
 
-        // Expose map for debugging
         window.map = map;
 
         map.addControl(
+
             new NavigationControl(),
+
             "top-left"
+
         );
 
-map.on("style.load", () => {
+        map.on("style.load", () => {
 
-    console.log("2. Style loaded");
+            console.log("Style loaded");
 
-    initializeLayers(map);
+            initializeLayers(
 
-    console.log("3. initializeLayers finished");
+                map,
 
-});
+                viewMode,
 
+                timeWindow
 
-        return () => map.remove();
+            );
 
-    }, []);
+            console.log("Layers initialized");
+
+        });
+
+        return () => {
+
+            map.remove();
+
+        };
+
+    }, [viewMode, timeWindow]);
 
     return (
 
         <div
+
             ref={container}
+
             style={{
+
                 width: "100%",
+
                 height: "100%"
+
             }}
+
         />
 
     );

@@ -17,12 +17,43 @@ export function addReportLayer(map, geojson) {
         id: "reports-circle",
         type: "circle",
         source: "reports",
-        paint: {
-            "circle-radius": 8,
-            "circle-color": "#E53935",
-            "circle-stroke-width": 2,
-            "circle-stroke-color": "#FFFFFF"
-        }
+paint: {
+
+    "circle-radius": 8,
+
+    "circle-color": [
+
+        "match",
+
+        ["get", "event_name"],
+
+        "RAIN", "#1E88E5",
+
+        "DRIZZLE", "#4FC3F7",
+
+        "THUNDER_LIGHTNING", "#8E24AA",
+
+        "HAILSTORM", "#FB8C00",
+
+        "GUSTY_WIND", "#43A047",
+
+        "HOT_WEATHER", "#E53935",
+
+        "HOT_HUMID", "#8D6E63",
+
+        "FOG", "#90A4AE",
+
+        "SNOW", "#FFFFFF",
+
+        "#E53935"
+
+    ],
+
+    "circle-stroke-width": 2,
+
+    "circle-stroke-color": "#FFFFFF"
+
+}
     });
 
     console.log("Layer added");

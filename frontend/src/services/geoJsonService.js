@@ -1,5 +1,5 @@
 export function reportsToGeoJSON(reports) {
-
+console.log("Reports received:", reports);
     return {
 
         type: "FeatureCollection",
@@ -23,11 +23,9 @@ properties: {
 
     report_id: report.report_id,
 
-    event_code: report.event_code,
-
     event_name: report.event_name,
 
-    source: report.source,
+    source: report.source || "Crowdsourced",
 
     reported_by: report.reported_by,
 
@@ -35,10 +33,11 @@ properties: {
 
     verification_status: report.verification_status,
 
-    confidence_score: report.confidence_score
+    confidence_score: report.confidence_score,
+
+    remarks: report.remarks || ""
 
 }
-
 
         }))
 
