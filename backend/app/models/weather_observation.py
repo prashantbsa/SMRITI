@@ -42,6 +42,12 @@ class WeatherObservation(Base, TimestampMixin):
         nullable=False,
     )
 
+    source_record_id: Mapped[str] = mapped_column(
+        String(100),
+        nullable=True,
+        unique=True,
+    )
+
     latitude: Mapped[float] = mapped_column(
         Float,
         nullable=False,

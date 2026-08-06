@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     DATABASE_PASSWORD: str
 
     MEGHDOOT_BASE_URL: str
-    MEGHDOOT_API_KEY: str = ""
+    MEGHDOOT_API_KEY: str
 
     APP_NAME: str = "SMRITI API"
     APP_VERSION: str = "0.1.0"

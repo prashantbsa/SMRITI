@@ -30,6 +30,9 @@ class ObservationResponse(BaseModel):
     latitude: float
     longitude: float
 
+    state: Optional[str]
+    district: Optional[str]
+
     phenomenon: str
 
     severity: Optional[str]
