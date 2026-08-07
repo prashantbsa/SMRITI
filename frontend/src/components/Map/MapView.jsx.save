@@ -1,0 +1,69 @@
+import { useEffect, useRef } from "react";
+import { Map, NavigationControl } from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+
+import { initializeLayers } from "./MapManager";
+
+export default function MapView({ viewMode }) {
+console.log("Current View:", viewMode);
+    const container = useRef(null);
+
+    useEffect(() => {
+
+        console.log("1. Creating map");
+
+        const map = new Map({
+
+            container: container.current,
+
+            style: "https://tiles.openfreemap.org/styles/liberty",
+
+            center: [78.9629, 22.5937],
+
+            zoom: 4.5,
+
+	interactive: true,
+
+        });
+
+        // Expose map for debugging
+        window.map = map;
+
+        map.addControl(
+            new NavigationControl(),
+            "top-left"
+        );
+
+	map.on("style.load", () => {
+
+    console.log("2. Style loaded");
+
+initializeLayers(
+    map,
+    viewMode,
+    timeWindow
+);
+
+    console.log("3. initializeLayers finished");
+
+});
+
+
+        return () => map.remove();
+
+}, [viewMode, timeWindow]);
+
+    return (
+
+        <div
+            ref={container}
+            style={{
+                width: "100%",
+                height: "100%"
+            }}
+        />
+
+    );
+
+}
+nano ~/Projects/SMRITI/frontend/src/services/eventGeoJsonService.js
