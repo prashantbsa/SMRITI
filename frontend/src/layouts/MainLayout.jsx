@@ -10,64 +10,299 @@ import Timeline from "../components/Timeline/Timeline";
 export default function MainLayout() {
 
     const [viewMode, setViewMode] = useState("reports");
-const [timeWindow, setTimeWindow] = useState("all");
+
+    const [timeWindow, setTimeWindow] = useState("1y");
+
+    const [selectedSources, setSelectedSources] = useState([
+        "MEGHDOOT",
+        "MAUSAM"
+    ]);
+
+    const [selectedEvents, setSelectedEvents] = useState([
+        "RAIN",
+        "DRIZZLE",
+        "THUNDER_LIGHTNING",
+        "HAIL",
+        "SNOW",
+        "FOG",
+        "HOT_HUMID",
+        "DUST_STORM",
+        "STRONG_WIND",
+        "GUSTY_WIND",
+        "CYCLONE"
+    ]);
+
 
     return (
 
-        <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+        <Box
+            sx={{
+                height: "100vh",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+                minHeight: 0
+            }}
+        >
 
-            <Header />
+            {/* -------------------------------------------------- */}
+            {/* HEADER                                             */}
+            {/* -------------------------------------------------- */}
 
-            <Box sx={{ flex: 1, display: "flex" }}>
+            <Box
+                sx={{
+                    flexShrink: 0
+                }}
+            >
 
-<Sidebar
-    timeWindow={timeWindow}
-    setTimeWindow={setTimeWindow}
-/>
-                <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-
-                    <div
-                        style={{
-                            padding: "10px",
-                            background: "#fff",
-                            borderBottom: "1px solid #ddd"
-                        }}
-                    >
-
-                        <label style={{ marginRight: "20px" }}>
-                            <input
-                                type="radio"
-                                checked={viewMode === "reports"}
-                                onChange={() => setViewMode("reports")}
-                            />
-                            Weather Reports
-                        </label>
-
-                        <label>
-                            <input
-                                type="radio"
-                                checked={viewMode === "events"}
-                                onChange={() => setViewMode("events")}
-                            />
-                            Weather Events
-                        </label>
-
-                    </div>
-
-<MapView
-    viewMode={viewMode}
-    timeWindow={timeWindow}
-/>
-
-                </Box>
-
-<ContextPanel
-    timeWindow={timeWindow}
-/>
+                <Header />
 
             </Box>
 
-            <Timeline />
+
+            {/* -------------------------------------------------- */}
+            {/* MAIN DASHBOARD AREA                                */}
+            {/* -------------------------------------------------- */}
+
+            <Box
+                sx={{
+                    flex: 1,
+                    minHeight: 0,
+                    display: "flex",
+                    overflow: "hidden"
+                }}
+            >
+
+                {/* -------------------------------------------------- */}
+                {/* LEFT FILTER SIDEBAR                                */}
+                {/* -------------------------------------------------- */}
+
+
+<Box
+    sx={{
+        width: 290,
+        minWidth: 290,
+        maxWidth: 290,
+
+        height: "100%",
+
+        flexShrink: 0,
+        minHeight: 0,
+
+        display: "flex",
+        flexDirection: "column",
+
+        overflow: "hidden",
+
+        borderRight: "1px solid #ddd",
+
+        boxSizing: "border-box"
+    }}
+>
+                    <Sidebar
+                        timeWindow={timeWindow}
+                        setTimeWindow={setTimeWindow}
+
+                        selectedEvents={selectedEvents}
+                        setSelectedEvents={setSelectedEvents}
+
+                        selectedSources={selectedSources}
+                        setSelectedSources={setSelectedSources}
+                    />
+
+                </Box>
+
+
+                {/* -------------------------------------------------- */}
+                {/* CENTER MAP AREA                                     */}
+                {/* -------------------------------------------------- */}
+
+<Box
+    sx={{
+        flex: 1,
+        minWidth: 0,
+        minHeight: 0,
+
+        display: "flex",
+        flexDirection: "column",
+
+        overflow: "hidden"
+    }}
+>
+
+                    {/* View switch */}
+
+                    <Box
+                        sx={{
+                            flexShrink: 0,
+
+                            height: 48,
+
+                            display: "flex",
+                            alignItems: "center",
+
+                            px: 2,
+
+                            backgroundColor: "#ffffff",
+
+                            borderBottom: "1px solid #ddd",
+
+                            gap: 3,
+
+                            boxSizing: "border-box"
+                        }}
+                    >
+
+                        <label
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                cursor: "pointer"
+                            }}
+                        >
+
+                            <input
+                                type="radio"
+                                checked={viewMode === "reports"}
+                                onChange={() =>
+                                    setViewMode("reports")
+                                }
+                            />
+
+                            <span>
+                                Weather Reports
+                            </span>
+
+                        </label>
+
+
+                        <label
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                cursor: "pointer"
+                            }}
+                        >
+
+                            <input
+                                type="radio"
+                                checked={viewMode === "events"}
+                                onChange={() =>
+                                    setViewMode("events")
+                                }
+                            />
+
+                            <span>
+                                Weather Events
+                            </span>
+
+                        </label>
+
+                    </Box>
+
+
+                    {/* Map */}
+
+<Box
+    sx={{
+        flex: 1,
+        minHeight: 0,
+
+        display: "flex",
+        flexDirection: "column",
+
+        overflow: "hidden"
+    }}
+>
+
+    {/* MAP */}
+
+    <Box
+        sx={{
+            flex: 1,
+            minHeight: 0,
+
+            overflow: "hidden"
+        }}
+    >
+
+        <MapView
+            viewMode={viewMode}
+            timeWindow={timeWindow}
+            selectedEvents={selectedEvents}
+            selectedSources={selectedSources}
+        />
+
+    </Box>
+
+
+    {/* TIMELINE */}
+
+    <Box
+        sx={{
+            flexShrink: 0,
+
+            height: 90,
+            minHeight: 90,
+
+            overflow: "hidden",
+
+            borderTop: "1px solid #ddd"
+        }}
+    >
+
+        <Timeline
+            selectedEvents={selectedEvents}
+            selectedSources={selectedSources}
+        />
+
+    </Box>
+
+</Box>
+
+
+                </Box>
+
+
+                {/* -------------------------------------------------- */}
+                {/* RIGHT CONTEXT PANEL                                */}
+                {/* -------------------------------------------------- */}
+
+                <Box
+                    sx={{
+                        width: 320,
+                        minWidth: 320,
+                        maxWidth: 320,
+
+                        height: "100%",
+
+                        flexShrink: 0,
+
+                        minHeight: 0,
+
+                        overflowY: "auto",
+                        overflowX: "hidden",
+
+                        borderLeft: "1px solid #ddd",
+
+                        boxSizing: "border-box"
+                    }}
+                >
+
+                    <ContextPanel
+                        timeWindow={timeWindow}
+                        selectedEvents={selectedEvents}
+                        selectedSources={selectedSources}
+                    />
+
+                </Box>
+
+            </Box>
+
+
 
         </Box>
 

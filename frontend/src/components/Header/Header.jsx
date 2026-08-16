@@ -1,26 +1,51 @@
 import { AppBar, Toolbar, Typography, Box, Chip } from "@mui/material";
 
 export default function Header() {
-  return (
-    <AppBar position="static" elevation={2}>
-      <Toolbar>
+    return (
 
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: "bold" }}
-        >
-          🌦 SMRITI
-        </Typography>
+        <AppBar position="static" elevation={2}>
 
-        <Box sx={{ flexGrow: 1 }} />
+            <Toolbar
+                sx={{
+                    position: "relative",
+                    justifyContent: "center",
+                }}
+            >
 
-        <Chip
-          label="LIVE"
-          color="success"
-          size="small"
-        />
+                {/* Centered SMRITI title */}
 
-      </Toolbar>
-    </AppBar>
-  );
+                <Typography
+                    variant="h5"
+                    sx={{
+                        fontWeight: "bold",
+                        lineHeight: 1.1,
+                        textAlign: "center",
+                    }}
+                >
+                    SMRITI (Smart Meteorological Reporting &amp; Information Tracking Initiative)
+                </Typography>
+
+
+                {/* LIVE indicator */}
+
+                <Box
+                    sx={{
+                        position: "absolute",
+                        right: 16,
+                    }}
+                >
+
+                    <Chip
+                        label="LIVE"
+                        color="success"
+                        size="small"
+                    />
+
+                </Box>
+
+            </Toolbar>
+
+        </AppBar>
+
+    );
 }
