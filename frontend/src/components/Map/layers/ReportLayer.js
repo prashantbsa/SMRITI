@@ -1,74 +1,299 @@
 import { showReportPopup } from "../popups/ReportPopup";
 
+
+// --------------------------------------------------
+// Add Weather Report Layer
+// --------------------------------------------------
+
 export function addReportLayer(map, geojson) {
 
-    console.log("=== addReportLayer ===");
+    /*
+     * Remove old event circle layer if it exists.
+     */
 
-    console.log("Existing source:", map.getSource("reports"));
+if (
+    map.getLayer(
+        "events-symbol"
+    )
+) {
 
-    map.addSource("reports", {
-        type: "geojson",
-        data: geojson
-    });
-
-    console.log("Source added");
-
-    map.addLayer({
-        id: "reports-circle",
-        type: "circle",
-        source: "reports",
-paint: {
-
-    "circle-radius": 8,
-
-    "circle-color": [
-
-        "match",
-
-        ["get", "event_name"],
-
-        "RAIN", "#1E88E5",
-
-        "DRIZZLE", "#4FC3F7",
-
-        "THUNDER_LIGHTNING", "#8E24AA",
-
-        "HAILSTORM", "#FB8C00",
-
-        "GUSTY_WIND", "#43A047",
-
-        "HOT_WEATHER", "#E53935",
-
-        "HOT_HUMID", "#8D6E63",
-
-        "FOG", "#90A4AE",
-
-        "SNOW", "#FFFFFF",
-
-        "#E53935"
-
-    ],
-
-    "circle-stroke-width": 2,
-
-    "circle-stroke-color": "#FFFFFF"
+    map.removeLayer(
+        "events-symbol"
+    );
 
 }
+
+
+if (
+    map.getLayer(
+        "events-evidence-circle"
+    )
+) {
+
+    map.removeLayer(
+        "events-evidence-circle"
+    );
+
+}
+
+
+/*
+ * Compatibility with older event layer.
+ */
+
+if (
+    map.getLayer(
+        "events-circle"
+    )
+) {
+
+    map.removeLayer(
+        "events-circle"
+    );
+
+}
+
+    /*
+     * Remove old event source if it exists.
+     */
+
+    if (map.getSource("events")) {
+
+        map.removeSource("events");
+
+    }
+
+
+    /*
+     * Update existing reports source.
+     */
+
+    if (map.getSource("reports")) {
+
+        map.getSource("reports").setData(geojson);
+
+    }
+
+    else {
+
+        /*
+         * Create reports source.
+         */
+
+        map.addSource("reports", {
+
+            type: "geojson",
+
+            data: geojson
+
+        });
+
+    }
+
+
+    /*
+     * Debug:
+     * Show the event codes actually reaching MapLibre.
+     */
+
+    console.log(
+        "EVENT CODES GOING TO MAP:",
+        geojson.features.map(
+            feature =>
+                feature.properties?.event_code
+        )
+    );
+
+
+    /*
+     * Remove existing report layer before
+     * recreating it.
+     */
+
+    if (map.getLayer("reports-symbol")) {
+
+        map.removeLayer("reports-symbol");
+
+    }
+
+
+    /*
+     * --------------------------------------------------
+     * WEATHER ICON LAYER
+     * --------------------------------------------------
+     */
+
+    map.addLayer({
+
+        id: "reports-symbol",
+
+        type: "symbol",
+
+        source: "reports",
+
+        layout: {
+
+            /*
+             * Select icon according to event code.
+             */
+
+"icon-image": [
+
+    "match",
+
+    ["get", "event_code"],
+
+    "RAIN",
+    "RAIN",
+
+    "DRIZZLE",
+    "DRIZZLE",
+
+    "THUNDER",
+    "THUNDER",
+
+    "LIGHTNING",
+    "LIGHTNING",
+
+    "THUNDER_LIGHTNING",
+    "THUNDER_LIGHTNING",
+
+    "HAIL",
+    "HAIL",
+
+    "SNOW",
+    "SNOW",
+
+    "FOG",
+    "FOG",
+
+    "HOT_HUMID",
+    "HOT_HUMID",
+
+    "DUST_STORM",
+    "DUST_STORM",
+
+    "GUSTY_WIND",
+    "GUSTY_WIND",
+
+    "CYCLONE",
+    "CYCLONE",
+
+    "DEFAULT_DOT"
+
+],
+
+
+            /*
+             * Size of weather icon.
+             */
+
+"icon-size": [
+
+    "match",
+
+    ["get", "event_code"],
+
+    "RAIN", 0.65,
+
+    "DRIZZLE", 0.22,
+
+    "THUNDER", 0.18,
+
+    "LIGHTNING", 0.22,
+
+    "THUNDER_LIGHTNING", 0.18,
+
+    "HAIL", 0.22,
+
+    "SNOW", 0.22,
+
+    "FOG", 0.12,
+
+    "HOT_HUMID", 0.18,
+
+    "DUST_STORM", 0.18,
+
+    "GUSTY_WIND", 0.18,
+
+    "CYCLONE", 0.18,
+
+    "DEFAULT_DOT", 0.65,
+
+    0.18
+
+],
+
+
+            /*
+             * Allow icons to overlap.
+             *
+             * Important because many observations
+             * can occur close to each other.
+             */
+
+            "icon-allow-overlap": true,
+
+            "icon-ignore-placement": true
+
+        }
+
     });
 
-    console.log("Layer added");
 
-    console.log("Layer exists:", map.getLayer("reports-circle"));
+    /*
+     * --------------------------------------------------
+     * CLICK POPUP
+     * --------------------------------------------------
+     */
 
-    map.on("click", "reports-circle", (e) => {
+    map.on(
+        "click",
+        "reports-symbol",
+        (e) => {
 
-        console.log("Circle clicked", e);
+            if (!e.features?.length) {
 
-        if (!e.features || e.features.length === 0)
-            return;
+                return;
 
-        showReportPopup(map, e.features[0]);
+            }
 
-    });
+
+            showReportPopup(
+                map,
+                e.features[0]
+            );
+
+        }
+    );
+
+
+    /*
+     * Change cursor when hovering over
+     * an observation.
+     */
+
+    map.on(
+        "mouseenter",
+        "reports-symbol",
+        () => {
+
+            map.getCanvas().style.cursor =
+                "pointer";
+
+        }
+    );
+
+
+    map.on(
+        "mouseleave",
+        "reports-symbol",
+        () => {
+
+            map.getCanvas().style.cursor =
+                "";
+
+        }
+    );
 
 }

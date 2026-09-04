@@ -1,8 +1,7 @@
 import uuid as uuid_lib
 from datetime import datetime
 from typing import Optional
-
-from sqlalchemy import DateTime, Integer, String, Text
+from sqlalchemy import DateTime, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -19,6 +18,15 @@ class WeatherEvent(Base, TimestampMixin):
     """
 
     __tablename__ = "weather_events"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "district",
+            "weather_type",
+            "start_time",
+            name="uq_weather_events_district_type_start",
+        ),
+    )
 
     id: Mapped[int] = mapped_column(
         Integer,

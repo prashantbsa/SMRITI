@@ -1,9 +1,11 @@
 import uuid as uuid_lib
 from datetime import datetime
+from typing import Optional
 
 from sqlalchemy import (
     DateTime,
     Float,
+    Index,
     String,
     Text,
 )
@@ -21,6 +23,14 @@ class WeatherObservation(Base, TimestampMixin):
 
     __tablename__ = "weather_observations"
 
+    __table_args__ = (
+        Index(
+            "ix_weather_observations_district_time",
+            "normalized_district",
+            "observation_time",
+        ),
+    )
+
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
 
     uuid: Mapped[uuid_lib.UUID] = mapped_column(
@@ -33,6 +43,17 @@ class WeatherObservation(Base, TimestampMixin):
     reporter_id: Mapped[str] = mapped_column(
         String(100),
         nullable=False,
+        index=True,
+    )
+
+    reporter_name: Mapped[Optional[str]] = mapped_column(
+        String(200),
+        nullable=True,
+    )
+
+    reporter_mobile: Mapped[Optional[str]] = mapped_column(
+        String(20),
+        nullable=True,
         index=True,
     )
 
@@ -68,6 +89,25 @@ class WeatherObservation(Base, TimestampMixin):
         nullable=True,
     )
 
+    normalized_state: Mapped[Optional[str]] = mapped_column(
+        String(100),
+        nullable=True,
+        index=True,
+    )
+
+    normalized_district: Mapped[Optional[str]] = mapped_column(
+        String(100),
+        nullable=True,
+        index=True,
+    )
+
+    weather_code: Mapped[Optional[str]] = mapped_column(
+        String(20),
+        nullable=True,
+        index=True,
+    )
+
+
     phenomenon: Mapped[str] = mapped_column(
         String(100),
         nullable=False,
@@ -99,6 +139,22 @@ class WeatherObservation(Base, TimestampMixin):
         default="UNVERIFIED",
         nullable=False,
     )
+
+    verified_by: Mapped[Optional[str]] = mapped_column(
+        String(100),
+        nullable=True,
+    )
+
+    verified_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
+    verification_remarks: Mapped[Optional[str]] = mapped_column(
+        Text,
+        nullable=True,
+    )
+
     images = relationship(
         "WeatherObservationImage",
         back_populates="observation",

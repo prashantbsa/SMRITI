@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+
+  <!-- Cloud -->
+  <path
+    d="M18 34
+       C12 34 8 30 8 25
+       C8 20 12 16 17 16
+       C19 10 24 7 30 7
+       C37 7 42 11 44 17
+       C51 17 56 21 56 27
+       C56 31 53 34 49 34
+       Z"
+    fill="#B0BEC5"
+    stroke="#607D8B"
+    stroke-width="3"
+    stroke-linejoin="round"
+  />
+
+  <!-- Fog / reduced visibility -->
+  <g
+    fill="none"
+    stroke="#607D8B"
+    stroke-width="4"
+    stroke-linecap="round"
+  >
+
+    <path d="M7 40 H46" />
+    <path d="M17 48 H57" />
+    <path d="M8 56 H43" />
+
+  </g>
+
+</svg>

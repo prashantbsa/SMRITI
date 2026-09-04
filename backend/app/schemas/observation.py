@@ -6,10 +6,12 @@ from pydantic import BaseModel, Field
 
 class ObservationCreate(BaseModel):
     reporter_id: str = Field(..., max_length=100)
+
     latitude: float
     longitude: float
 
     phenomenon: str
+
     severity: Optional[str] = None
 
     observation_time: datetime
@@ -26,6 +28,8 @@ class ObservationResponse(BaseModel):
     id: int
 
     reporter_id: str
+
+    source: str
 
     latitude: float
     longitude: float

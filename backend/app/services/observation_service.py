@@ -2,6 +2,9 @@ from sqlalchemy.orm import Session
 
 from app.models.weather_observation import WeatherObservation
 from app.schemas.observation import ObservationCreate
+from app.utils.india_admin_units import (
+    normalize_indian_admin_unit,
+)
 
 
 def create_observation(
@@ -29,8 +32,16 @@ def create_observation(
 
 
 def get_observations(db: Session):
-    return (
+    observations = (
         db.query(WeatherObservation)
         .order_by(WeatherObservation.id.desc())
         .all()
     )
+
+    for observation in observations:
+
+        observation.state = normalize_indian_admin_unit(
+            observation.state
+        )
+
+    return observations

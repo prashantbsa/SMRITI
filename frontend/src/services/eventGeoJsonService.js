@@ -4,33 +4,61 @@ export function eventsToGeoJSON(events) {
 
         type: "FeatureCollection",
 
-        features: events.map(event => ({
+        features: events
+            .filter(event =>
+                event.latitude !== null &&
+                event.longitude !== null
+            )
+            .map(event => ({
 
-            type: "Feature",
+                type: "Feature",
 
-            geometry: {
+                geometry: {
 
-                type: "Point",
+                    type: "Point",
 
-                coordinates: [
+                    coordinates: [
+                        event.longitude,
+                        event.latitude
+                    ]
 
-                    event.longitude,
+                },
 
-                    event.latitude
+                properties: {
 
-                ]
+                    id:
+                        event.id,
 
-            },
+                    event_name:
+                        event.weather_type,
 
-            properties: {
+                    weather_type:
+                        event.weather_type,
 
-                event_name: event.event_name,
+                    state:
+                        event.state || "",
 
-                report_count: event.reports.length
+                    district:
+                        event.district || "",
 
-            }
+                    start_time:
+                        event.start_time,
 
-        }))
+                    end_time:
+                        event.end_time,
+
+                    evidence_strength:
+                        event.evidence_strength ?? 0,
+
+                    observation_count:
+                        event.observation_count ?? 0,
+
+                    status:
+                        event.status || "active"
+
+                }
+
+            }))
 
     };
 

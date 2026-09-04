@@ -6,10 +6,16 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import MapView from "../components/Map/MapView";
 import ContextPanel from "../components/ContextPanel/ContextPanel";
 import Timeline from "../components/Timeline/Timeline";
+import Leaderboard from "../components/Leaderboard/Leaderboard";
+import UserManagement from "../components/Admin/UserManagement";
 
-export default function MainLayout() {
-
+export default function MainLayout({
+    currentUser,
+    onLogout
+}) {
     const [viewMode, setViewMode] = useState("reports");
+
+    const [adminView, setAdminView] = useState(false);
 
     const [timeWindow, setTimeWindow] = useState("1y");
 
@@ -39,67 +45,94 @@ export default function MainLayout() {
             sx={{
                 height: "100vh",
                 width: "100%",
+
                 display: "flex",
                 flexDirection: "column",
+
                 overflow: "hidden",
                 minHeight: 0
             }}
         >
 
-            {/* -------------------------------------------------- */}
-            {/* HEADER                                             */}
-            {/* -------------------------------------------------- */}
+            {/* ==================================================
+                HEADER
+            ================================================== */}
 
             <Box
                 sx={{
                     flexShrink: 0
                 }}
             >
-
-                <Header />
+        <Header
+            currentUser={currentUser}
+            onUserManagement={() =>
+                setAdminView(true)
+            }
+            onLogout={onLogout}
+        />
 
             </Box>
 
 
-            {/* -------------------------------------------------- */}
-            {/* MAIN DASHBOARD AREA                                */}
-            {/* -------------------------------------------------- */}
+            {/* ==================================================
+                MAIN DASHBOARD AREA
+            ================================================== */}
 
-            <Box
-                sx={{
-                    flex: 1,
-                    minHeight: 0,
-                    display: "flex",
-                    overflow: "hidden"
-                }}
-            >
+{adminView ? (
 
-                {/* -------------------------------------------------- */}
-                {/* LEFT FILTER SIDEBAR                                */}
-                {/* -------------------------------------------------- */}
+    <Box
+        sx={{
+            flex: 1,
+            minHeight: 0,
+            overflow: "hidden"
+        }}
+    >
+        <UserManagement
+            onClose={() =>
+                setAdminView(false)
+            }
+        />
+    </Box>
 
+) : (
 
-<Box
-    sx={{
-        width: 290,
-        minWidth: 290,
-        maxWidth: 290,
+    <Box
+        sx={{
+            flex: 1,
+            minHeight: 0,
 
-        height: "100%",
+            display: "flex",
 
-        flexShrink: 0,
-        minHeight: 0,
+            overflow: "hidden"
+        }}
+    >
 
-        display: "flex",
-        flexDirection: "column",
+                {/* ==================================================
+                    LEFT SIDEBAR
+                ================================================== */}
 
-        overflow: "hidden",
+                <Box
+                    sx={{
+                        width: 290,
+                        minWidth: 290,
+                        maxWidth: 290,
 
-        borderRight: "1px solid #ddd",
+                        height: "100%",
 
-        boxSizing: "border-box"
-    }}
->
+                        flexShrink: 0,
+                        minHeight: 0,
+
+                        display: "flex",
+                        flexDirection: "column",
+
+                        overflow: "hidden",
+
+                        borderRight: "1px solid #ddd",
+
+                        boxSizing: "border-box"
+                    }}
+                >
+
                     <Sidebar
                         timeWindow={timeWindow}
                         setTimeWindow={setTimeWindow}
@@ -114,24 +147,27 @@ export default function MainLayout() {
                 </Box>
 
 
-                {/* -------------------------------------------------- */}
-                {/* CENTER MAP AREA                                     */}
-                {/* -------------------------------------------------- */}
+                {/* ==================================================
+                    CENTER AREA
+                ================================================== */}
 
-<Box
-    sx={{
-        flex: 1,
-        minWidth: 0,
-        minHeight: 0,
+                <Box
+                    sx={{
+                        flex: 1,
 
-        display: "flex",
-        flexDirection: "column",
+                        minWidth: 0,
+                        minHeight: 0,
 
-        overflow: "hidden"
-    }}
->
+                        display: "flex",
+                        flexDirection: "column",
 
-                    {/* View switch */}
+                        overflow: "hidden"
+                    }}
+                >
+
+                    {/* ==============================================
+                        TOP VIEW SELECTOR
+                    ============================================== */}
 
                     <Box
                         sx={{
@@ -154,6 +190,8 @@ export default function MainLayout() {
                         }}
                     >
 
+                        {/* WEATHER REPORTS */}
+
                         <label
                             style={{
                                 display: "flex",
@@ -165,7 +203,9 @@ export default function MainLayout() {
 
                             <input
                                 type="radio"
-                                checked={viewMode === "reports"}
+                                checked={
+                                    viewMode === "reports"
+                                }
                                 onChange={() =>
                                     setViewMode("reports")
                                 }
@@ -178,6 +218,8 @@ export default function MainLayout() {
                         </label>
 
 
+                        {/* WEATHER EVENTS */}
+
                         <label
                             style={{
                                 display: "flex",
@@ -189,7 +231,9 @@ export default function MainLayout() {
 
                             <input
                                 type="radio"
-                                checked={viewMode === "events"}
+                                checked={
+                                    viewMode === "events"
+                                }
                                 onChange={() =>
                                     setViewMode("events")
                                 }
@@ -201,75 +245,138 @@ export default function MainLayout() {
 
                         </label>
 
+
+                        {/* LEADERBOARD */}
+
+                        <label
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                cursor: "pointer"
+                            }}
+                        >
+
+                            <input
+                                type="radio"
+                                checked={
+                                    viewMode === "leaderboard"
+                                }
+                                onChange={() =>
+                                    setViewMode("leaderboard")
+                                }
+                            />
+
+                            <span>
+                                Leaderboard
+                            </span>
+
+                        </label>
+
                     </Box>
 
 
-                    {/* Map */}
+                    {/* ==================================================
+                        LEADERBOARD MODE
+                    ================================================== */}
 
-<Box
-    sx={{
-        flex: 1,
-        minHeight: 0,
+                    {viewMode === "leaderboard" ? (
 
-        display: "flex",
-        flexDirection: "column",
+                        <Box
+                            sx={{
+                                flex: 1,
 
-        overflow: "hidden"
-    }}
->
+                                minHeight: 0,
 
-    {/* MAP */}
+                                overflow: "hidden"
+                            }}
+                        >
 
-    <Box
-        sx={{
-            flex: 1,
-            minHeight: 0,
+                            <Leaderboard />
 
-            overflow: "hidden"
-        }}
-    >
+                        </Box>
 
-        <MapView
-            viewMode={viewMode}
-            timeWindow={timeWindow}
-            selectedEvents={selectedEvents}
-            selectedSources={selectedSources}
-        />
+                    ) : (
 
-    </Box>
+                        /* ==================================================
+                            MAP MODES
+                        ================================================== */
+
+                        <Box
+                            sx={{
+                                flex: 1,
+
+                                minHeight: 0,
+
+                                display: "flex",
+                                flexDirection: "column",
+
+                                overflow: "hidden"
+                            }}
+                        >
+
+                            {/* MAP */}
+
+                            <Box
+                                sx={{
+                                    flex: 1,
+
+                                    minHeight: 0,
+
+                                    overflow: "hidden"
+                                }}
+                            >
+
+                                <MapView
+                                    viewMode={viewMode}
+                                    timeWindow={timeWindow}
+                                    selectedEvents={selectedEvents}
+                                    selectedSources={selectedSources}
+                                />
+
+                            </Box>
 
 
-    {/* TIMELINE */}
+                            {/* TIMELINE */}
 
-    <Box
-        sx={{
-            flexShrink: 0,
+                            <Box
+                                sx={{
+                                    flexShrink: 0,
 
-            height: 90,
-            minHeight: 90,
+                                    height: 90,
+                                    minHeight: 90,
 
-            overflow: "hidden",
+                                    overflow: "hidden",
 
-            borderTop: "1px solid #ddd"
-        }}
-    >
+                                    borderTop:
+                                        "1px solid #ddd"
+                                }}
+                            >
 
-        <Timeline
-            selectedEvents={selectedEvents}
-            selectedSources={selectedSources}
-        />
+                                <Timeline
+                                    selectedEvents={
+                                        selectedEvents
+                                    }
 
-    </Box>
+                                    selectedSources={
+                                        selectedSources
+                                    }
+                                />
 
-</Box>
+     
+                       </Box>
 
+
+                        </Box>
+
+                    )}
 
                 </Box>
 
 
-                {/* -------------------------------------------------- */}
-                {/* RIGHT CONTEXT PANEL                                */}
-                {/* -------------------------------------------------- */}
+                {/* ==================================================
+                    RIGHT CONTEXT PANEL
+                ================================================== */}
 
                 <Box
                     sx={{
@@ -280,11 +387,9 @@ export default function MainLayout() {
                         height: "100%",
 
                         flexShrink: 0,
-
                         minHeight: 0,
 
-                        overflowY: "auto",
-                        overflowX: "hidden",
+                        overflow: "hidden",
 
                         borderLeft: "1px solid #ddd",
 
@@ -302,7 +407,7 @@ export default function MainLayout() {
 
             </Box>
 
-
+)}
 
         </Box>
 

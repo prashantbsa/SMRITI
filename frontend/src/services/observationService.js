@@ -20,11 +20,10 @@ class ObservationService {
 
             longitude: item.longitude,
 
- state: item.state,
+            state: item.state,
 
-    district: item.district,
+            district: item.district,
 
-    
             event_code: item.phenomenon,
 
             event_name: item.phenomenon,
@@ -35,11 +34,13 @@ class ObservationService {
 
             time: item.observation_time,
 
-            verification_status: item.verification_status,
+            verification_status:
+                item.verification_status,
 
             confidence_score: "N/A",
 
-	    remarks: item.remarks
+            remarks: item.remarks
+
         }));
 
     }

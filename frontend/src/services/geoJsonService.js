@@ -1,18 +1,18 @@
-export function reportsToGeoJSON(reports) {
-console.log("Reports received:", reports);
-    return {
+export function reportsToGeoJSON(reports){
 
-        type: "FeatureCollection",
+    return{
 
-        features: reports.map(report => ({
+        type:"FeatureCollection",
 
-            type: "Feature",
+        features:reports.map(report=>({
 
-            geometry: {
+            type:"Feature",
 
-                type: "Point",
+            geometry:{
 
-                coordinates: [
+                type:"Point",
+
+                coordinates:[
                     report.longitude,
                     report.latitude
                 ]
@@ -25,19 +25,26 @@ properties: {
 
     event_name: report.event_name,
 
-    source: report.source || "Crowdsourced",
+    event_code: report.event_code,
 
     reported_by: report.reported_by,
 
+    source: report.source,
+
     observation_time: report.time,
+
+    remarks: report.remarks,
+
+    state: report.state,
+
+    district: report.district,
 
     verification_status: report.verification_status,
 
-    confidence_score: report.confidence_score,
-
-    remarks: report.remarks || ""
+    confidence_score: report.confidence_score
 
 }
+
 
         }))
 

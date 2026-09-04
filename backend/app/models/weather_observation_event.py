@@ -1,6 +1,6 @@
 import uuid as uuid_lib
 
-from sqlalchemy import ForeignKey, Integer
+from sqlalchemy import ForeignKey, Integer, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -16,6 +16,14 @@ class WeatherObservationEvent(Base, TimestampMixin):
     """
 
     __tablename__ = "weather_observation_events"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "observation_id",
+            "weather_event_id",
+            name="uq_weather_observation_events_observation_event",
+        ),
+    )
 
     id: Mapped[int] = mapped_column(
         Integer,

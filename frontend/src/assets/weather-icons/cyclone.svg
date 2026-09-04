@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+
+  <path
+    d="M32 8
+       C46 8 56 17 56 28
+       C56 39 46 47 35 47
+       C25 47 18 41 18 34
+       C18 27 24 23 31 23
+       C37 23 41 27 41 32
+       C41 36 38 39 34 39
+       C31 39 29 37 29 34"
+    fill="none"
+    stroke="#455A64"
+    stroke-width="5"
+    stroke-linecap="round"
+  />
+
+  <circle
+    cx="32"
+    cy="33"
+    r="4"
+    fill="#607D8B"
+  />
+
+</svg>

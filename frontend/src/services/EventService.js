@@ -1,47 +1,23 @@
 class EventService {
 
-    buildEvents(reports) {
+    async getAllEvents() {
 
-        const events = {};
+        const response = await fetch(
+            "http://192.168.12.160:8000/weather-events/?limit=10000"
+        );
 
-        reports.forEach(report => {
+        if (!response.ok) {
 
-            const phenomena = report.event_name.split(",");
+            throw new Error(
+                "Unable to fetch weather events"
+            );
 
-            phenomena.forEach(type => {
+        }
 
-                const key = type.trim();
+        const data =
+            await response.json();
 
-                if (!events[key]) {
-
-                    events[key] = {
-                        event_name: key,
-                        latitude: 0,
-                        longitude: 0,
-                        report_count: 0,
-                        reports: []
-                    };
-
-                }
-
-                events[key].reports.push(report);
-                events[key].latitude += report.latitude;
-                events[key].longitude += report.longitude;
-                events[key].report_count++;
-
-            });
-
-        });
-
-        Object.values(events).forEach(event => {
-
-            event.latitude /= event.report_count;
-            event.longitude /= event.report_count;
-
-        });
-
-        return Object.values(events);
-
+        return data.events || [];
     }
 
 }

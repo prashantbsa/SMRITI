@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+
+  <!-- Thunder cloud -->
+  <path
+    d="M16 37
+       C10 37 6 33 6 28
+       C6 23 10 19 15 19
+       C17 12 23 8 30 8
+       C38 8 44 13 46 20
+       C53 20 58 24 58 30
+       C58 35 54 38 49 38
+       H16Z"
+    fill="#78909C"
+    stroke="#455A64"
+    stroke-width="3"
+    stroke-linejoin="round"
+  />
+
+  <!-- Thunder / sound waves -->
+  <path
+    d="M17 47 Q22 43 27 47"
+    fill="none"
+    stroke="#5D4037"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <path
+    d="M29 47 Q34 43 39 47"
+    fill="none"
+    stroke="#5D4037"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <path
+    d="M41 47 Q46 43 51 47"
+    fill="none"
+    stroke="#5D4037"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <path
+    d="M22 55 Q27 51 32 55"
+    fill="none"
+    stroke="#5D4037"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <path
+    d="M35 55 Q40 51 45 55"
+    fill="none"
+    stroke="#5D4037"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+</svg>
