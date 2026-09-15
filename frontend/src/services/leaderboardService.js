@@ -3,7 +3,10 @@ class LeaderboardService {
     async getLeaderboard(limit = 50) {
 
         const response = await fetch(
-            `http://192.168.12.160:8000/leaderboard/?limit=${limit}`
+            `/api/leaderboard/?limit=${limit}`,
+            {
+                credentials: "include"
+            }
         );
 
         if (!response.ok) {

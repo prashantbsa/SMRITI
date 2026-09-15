@@ -1,5 +1,4 @@
-const API_BASE_URL = "http://192.168.12.160:8000";
-
+const API_BASE_URL = "/api";
 
 async function apiRequest(path, options = {}) {
 

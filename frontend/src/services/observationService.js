@@ -3,7 +3,10 @@ class ObservationService {
     async getAllReports() {
 
         const response = await fetch(
-            "http://192.168.12.160:8000/observations/"
+            "/api/observations/",
+            {
+                credentials: "include"
+            }
         );
 
         if (!response.ok) {

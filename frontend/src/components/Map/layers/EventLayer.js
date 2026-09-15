@@ -871,14 +871,29 @@ export function addEventLayer(
 
 
             /*
-             * Slightly smaller than reports
-             * because the confidence halo
-             * surrounds the icon.
+             * Use the same weather-icon sizing
+             * as the Weather Reports layer.
              */
+            "icon-size": [
+                "match",
+                ["get", "weather_type"],
 
-            "icon-size":
-                0.55,
+                "RAIN", 0.65,
+                "DRIZZLE", 0.22,
+                "THUNDER", 0.18,
+                "LIGHTNING", 0.22,
+                "THUNDER_LIGHTNING", 0.18,
+                "HAIL", 0.22,
+                "SNOW", 0.22,
+                "FOG", 0.12,
+                "HOT_HUMID", 0.18,
+                "DUST_STORM", 0.18,
+                "GUSTY_WIND", 0.18,
+                "CYCLONE", 0.18,
+                "DEFAULT_DOT", 0.65,
 
+                0.18
+            ],
 
             "icon-allow-overlap":
                 true,

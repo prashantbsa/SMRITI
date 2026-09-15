@@ -3,7 +3,10 @@ class EventService {
     async getAllEvents() {
 
         const response = await fetch(
-            "http://192.168.12.160:8000/weather-events/?limit=10000"
+            "/api/weather-events/?limit=10000",
+            {
+                credentials: "include"
+            }
         );
 
         if (!response.ok) {
