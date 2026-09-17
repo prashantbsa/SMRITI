@@ -19,7 +19,6 @@ from app.models.weather_observation import (
 
 
 router = APIRouter(
-    prefix="/shared",
     tags=["Shared Data"],
     dependencies=[
         Depends(require_shared_api_key),
@@ -27,7 +26,14 @@ router = APIRouter(
 )
 
 
-@router.get("/observations")
+@router.get(
+    "/shared/observations",
+    include_in_schema=False,
+)
+@router.get(
+    "/v1/shared/observations",
+    summary="List shared weather observations",
+)
 def list_shared_observations(
     limit: int = Query(
         default=100,
