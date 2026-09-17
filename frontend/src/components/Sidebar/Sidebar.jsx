@@ -1,7 +1,5 @@
 import {
-    useEffect,
-    useMemo,
-    useState
+    useMemo
 } from "react";
 
 import {
@@ -21,9 +19,6 @@ import {
 
 import ExpandMoreIcon
     from "@mui/icons-material/ExpandMore";
-
-import ObservationService
-    from "../../services/observationService";
 
 import rainIcon
     from "../../assets/weather-icons/rain.svg";
@@ -370,6 +365,9 @@ function reportInsideTimeWindow(
 
 export default function Sidebar({
 
+    observations,
+    observationsLoading,
+
     timeWindow,
     setTimeWindow,
 
@@ -383,83 +381,6 @@ export default function Sidebar({
 
     const selectedVerificationStatus =
         "ALL";
-
-
-    const [
-        observations,
-        setObservations
-    ] = useState([]);
-
-
-    const [
-        countsLoading,
-        setCountsLoading
-    ] = useState(true);
-
-
-    // --------------------------------------------------
-    // LOAD OBSERVATIONS
-    // --------------------------------------------------
-
-    useEffect(() => {
-
-        let active = true;
-
-
-        setCountsLoading(true);
-
-
-        ObservationService
-            .getAllReports()
-
-            .then(data => {
-
-                if (!active) {
-                    return;
-                }
-
-                setObservations(
-                    data || []
-                );
-
-            })
-
-            .catch(error => {
-
-                console.error(
-                    "Unable to load sidebar observation counts:",
-                    error
-                );
-
-
-                if (active) {
-
-                    setObservations([]);
-
-                }
-
-            })
-
-            .finally(() => {
-
-                if (active) {
-
-                    setCountsLoading(
-                        false
-                    );
-
-                }
-
-            });
-
-
-        return () => {
-
-            active = false;
-
-        };
-
-    }, []);
 
 
     // --------------------------------------------------
@@ -760,9 +681,9 @@ export default function Sidebar({
             >
 
                 {
-                    countsLoading
-                        ? "…"
-                        : value
+observationsLoading
+    ? "…"
+    : value
                 }
 
             </Box>
@@ -859,9 +780,15 @@ export default function Sidebar({
 
         <Box
             sx={{
-                width: 290,
-                minWidth: 290,
-                maxWidth: 290,
+		width: {
+		    xs: "88vw",
+		    sm: 290
+		},
+		minWidth: {
+		    xs: 0,
+		    sm: 290
+		},
+		maxWidth: 290,
 
                 height: "100%",
                 minHeight: 0,

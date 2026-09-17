@@ -1,4 +1,3 @@
-import ObservationService from "../../services/observationService";
 import EventService from "../../services/EventService";
 
 import {
@@ -27,7 +26,8 @@ export async function initializeLayers(
     viewMode,
     timeWindow,
     selectedEvents,
-    selectedSources
+    selectedSources,
+    observations = []
 ) {
 
     // --------------------------------------------------
@@ -44,7 +44,7 @@ export async function initializeLayers(
     if (viewMode === "reports") {
         hideEvidenceLegend(map);
         let reports =
-            await ObservationService.getAllReports();
+            observations;
 
 
         // --------------------------------------------------

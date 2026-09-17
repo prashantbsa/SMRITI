@@ -1,48 +1,12 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
-
-import ObservationService from "../../services/observationService";
+import { useMemo } from "react";
 
 
 export default function Timeline({
+    observations,
     selectedEvents,
     selectedSources,
 }) {
-
-    const [reports, setReports] = useState([]);
-
-
-    // --------------------------------------------------
-    // LOAD OBSERVATIONS
-    // --------------------------------------------------
-
-    useEffect(() => {
-
-        async function loadReports() {
-
-            try {
-
-                const data =
-                    await ObservationService.getAllReports();
-
-                setReports(data || []);
-
-            } catch (error) {
-
-                console.error(
-                    "Unable to load observations for timeline:",
-                    error
-                );
-
-                setReports([]);
-
-            }
-
-        }
-
-        loadReports();
-
-    }, []);
 
 
     // --------------------------------------------------
@@ -73,7 +37,7 @@ export default function Timeline({
             now.getDate();
 
 
-        reports.forEach(report => {
+        observations.forEach(report => {
 
             if (!report.observation_time && !report.time) {
                 return;
@@ -165,7 +129,7 @@ export default function Timeline({
         return hours;
 
     }, [
-        reports,
+        observations,
         selectedEvents,
         selectedSources,
     ]);

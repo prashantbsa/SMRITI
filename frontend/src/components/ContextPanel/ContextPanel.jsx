@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import {
     Box,
     Card,
@@ -8,35 +6,12 @@ import {
     Divider
 } from "@mui/material";
 
-import ObservationService from "../../services/observationService";
-
 export default function ContextPanel({
+    observations,
     timeWindow,
     selectedEvents,
     selectedSources
 }) {
-
-    const [observations, setObservations] = useState([]);
-
-    useEffect(() => {
-
-        ObservationService
-            .getAllReports()
-            .then(data => {
-                setObservations(data || []);
-            })
-            .catch(error => {
-
-                console.error(
-                    "Unable to load observations for India Summary:",
-                    error
-                );
-
-                setObservations([]);
-
-            });
-
-    }, []);
 
 
     // --------------------------------------------------
@@ -286,9 +261,15 @@ const timeWindowLabel =
 
         <Box
             sx={{
-                width: 320,
-                minWidth: 320,
-                maxWidth: 320,
+		width: {
+		    xs: "92vw",
+		    sm: 320
+		},
+		minWidth: {
+		    xs: 0,
+		    sm: 320
+		},
+		maxWidth: 320,
 
                 height: "100%",
                 minHeight: 0,

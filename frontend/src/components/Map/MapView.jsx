@@ -61,6 +61,7 @@ const OSM_STYLE = {
 
 
 export default function MapView({
+    observations,
     viewMode,
     timeWindow,
     selectedEvents,
@@ -114,7 +115,9 @@ export default function MapView({
 
             selectedEvents,
 
-            selectedSources
+            selectedSources,
+ 
+            observations
 
         );
 
@@ -451,7 +454,9 @@ export default function MapView({
 
             selectedEvents,
 
-            selectedSources
+            selectedSources,
+
+	    observations
 
         )
         .then(() => {
@@ -491,7 +496,9 @@ export default function MapView({
 
         selectedEvents,
 
-        selectedSources
+        selectedSources,
+
+        observations
 
     ]);
 
