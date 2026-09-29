@@ -65,7 +65,8 @@ export default function MapView({
     viewMode,
     timeWindow,
     selectedEvents,
-    selectedSources
+    selectedSources,
+    onEventSelect
 }) {
 
     const mapRef =
@@ -117,7 +118,9 @@ export default function MapView({
 
             selectedSources,
  
-            observations
+            observations,
+
+            onEventSelect
 
         );
 
@@ -225,6 +228,7 @@ export default function MapView({
 
         mapInstance.current =
             map;
+
 
 
         // ----------------------------------------------
@@ -456,7 +460,9 @@ export default function MapView({
 
             selectedSources,
 
-	    observations
+	    observations,
+
+            onEventSelect
 
         )
         .then(() => {

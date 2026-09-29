@@ -41,26 +41,30 @@ export function addIndiaBoundaryLayer(map) {
 
                 paint: {
 
-                    "line-color":
-                        "#202020",
+"line-color":
+    "#111111",
 
-                    "line-width": [
-                        "interpolate",
-                        ["linear"],
-                        ["zoom"],
+"line-width": [
+    "interpolate",
+    ["linear"],
+    ["zoom"],
 
-                        4,
-                        1.5,
+    4,
+    2.0,
 
-                        7,
-                        2.5,
+    6,
+    2.5,
 
-                        10,
-                        3
-                    ],
+    8,
+    3.0,
 
-                    "line-opacity":
-                        0.9,
+    10,
+    3.5
+],
+
+"line-opacity":
+    0.95,
+
                 },
             }
         );

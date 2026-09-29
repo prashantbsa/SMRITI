@@ -619,8 +619,19 @@ export function hideEvidenceLegend(
 
 export function addEventLayer(
     map,
-    geojson
+    geojson,
+    onEventSelect
 ) {
+    /*
+     * Keep the latest React event-selection callback
+     * on the map instance.
+     *
+     * MapLibre click handlers are registered only once,
+     * so this avoids capturing a stale callback.
+     */
+    map.__smritiOnEventSelect =
+        onEventSelect;
+
 
     // --------------------------------------------------
     // REMOVE REPORT SYMBOL
@@ -945,6 +956,27 @@ export function addEventLayer(
                     e.features[0]
                         .properties;
 
+console.log(
+    "SMRITI selected event properties:",
+    properties
+);
+
+console.log(
+    "SMRITI event callback:",
+    typeof map.__smritiOnEventSelect
+);
+
+                if (
+                    typeof map.__smritiOnEventSelect
+                    === "function"
+                ) {
+
+                    map.__smritiOnEventSelect(
+                        properties
+                    );
+
+                }
+
 
                 new Popup({
 
@@ -995,6 +1027,17 @@ export function addEventLayer(
                 const properties =
                     e.features[0]
                         .properties;
+
+                if (
+                    typeof map.__smritiOnEventSelect
+                    === "function"
+                ) {
+
+                    map.__smritiOnEventSelect(
+                        properties
+                    );
+
+                }
 
 
                 new Popup({

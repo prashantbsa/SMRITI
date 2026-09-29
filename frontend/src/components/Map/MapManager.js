@@ -27,7 +27,8 @@ export async function initializeLayers(
     timeWindow,
     selectedEvents,
     selectedSources,
-    observations = []
+    observations = [],
+    onEventSelect = null
 ) {
 
     // --------------------------------------------------
@@ -424,7 +425,9 @@ export async function initializeLayers(
 
             map,
 
-            geoJson
+            geoJson,
+
+            onEventSelect
 
         );
 

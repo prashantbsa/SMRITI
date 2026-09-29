@@ -53,6 +53,15 @@ export function eventsToGeoJSON(events) {
                     observation_count:
                         event.observation_count ?? 0,
 
+                    contributor_count:
+                        event.contributor_count ?? 0,
+
+                    first_observation_time:
+                        event.first_observation_time || null,
+
+                    latest_observation_time:
+                        event.latest_observation_time || null,
+
                     status:
                         event.status || "active"
 

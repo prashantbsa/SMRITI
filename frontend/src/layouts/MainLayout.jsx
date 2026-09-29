@@ -57,6 +57,23 @@ export default function MainLayout({
     const [viewMode, setViewMode] =
         useState("reports");
 
+    const [
+        selectedWeatherEvent,
+        setSelectedWeatherEvent
+    ] = useState(null);
+
+    useEffect(() => {
+
+        if (viewMode !== "events") {
+
+            setSelectedWeatherEvent(
+            null
+            );
+
+        }
+
+    }, [viewMode]);
+
     const [adminView, setAdminView] =
         useState(false);
 
@@ -196,6 +213,11 @@ export default function MainLayout({
             timeWindow={timeWindow}
             selectedEvents={selectedEvents}
             selectedSources={selectedSources}
+
+            viewMode={viewMode}
+
+            selectedWeatherEvent={
+            selectedWeatherEvent}
         />
 
     );
@@ -636,6 +658,11 @@ export default function MainLayout({
 
                                         selectedSources={
                                             selectedSources
+				        }
+
+					onEventSelect={
+				            setSelectedWeatherEvent
+
                                         }
 
                                     />
