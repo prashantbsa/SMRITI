@@ -3,6 +3,137 @@ import { Popup } from "maplibre-gl";
 const LEGEND_ID =
     "smriti-evidence-strength-legend";
 
+// --------------------------------------------------
+// EVIDENCE RING ICONS
+// --------------------------------------------------
+
+const EVIDENCE_RING_VALUES = [20, 40, 60, 80, 100];
+
+function createEvidenceRing(strength) {
+    const size = 40;
+    const canvas = document.createElement("canvas");
+
+    canvas.width = size;
+    canvas.height = size;
+
+    const context = canvas.getContext("2d");
+
+    context.clearRect(
+        0,
+        0,
+        size,
+        size
+    );
+
+    const center = size / 2;
+    const radius = 15;
+
+    const color =
+        strength === 20
+            ? "#BBDEFB"
+            : strength === 40
+                ? "#90CAF9"
+                : strength === 60
+                    ? "#42A5F5"
+                    : strength === 80
+                        ? "#1E88E5"
+                        : "#1565C0";
+
+    context.beginPath();
+
+    context.arc(
+        center,
+        center,
+        radius,
+        0,
+        Math.PI * 2
+    );
+
+    context.strokeStyle = color;
+    context.lineWidth = 3;
+    context.lineCap = "round";
+
+    context.stroke();
+
+    return context.getImageData(
+        0,
+        0,
+        size,
+        size
+    );
+}
+
+function loadEvidenceRingIcons(map) {
+
+    EVIDENCE_RING_VALUES.forEach(
+        (strength) => {
+
+            const imageId =
+                `EVIDENCE_RING_${strength}`;
+
+            if (!map.hasImage(imageId)) {
+
+                map.addImage(
+                    imageId,
+                    createEvidenceRing(strength),
+                    {
+                        pixelRatio: 1
+                    }
+                );
+
+            }
+
+        }
+    );
+
+}
+
+function getEvidenceRingImage() {
+
+    const strength =
+        [
+            "step",
+            [
+                "coalesce",
+                ["get", "evidence_strength"],
+                20
+            ],
+
+            20,
+
+            40,
+            40,
+
+            60,
+            60,
+
+            80,
+            80,
+
+            100,
+            100
+        ];
+
+    return [
+        "match",
+
+        strength,
+
+        100,
+        "EVIDENCE_RING_100",
+
+        80,
+        "EVIDENCE_RING_80",
+
+        60,
+        "EVIDENCE_RING_60",
+
+        40,
+        "EVIDENCE_RING_40",
+
+        "EVIDENCE_RING_20"
+    ];
+}
 
 // --------------------------------------------------
 // EVIDENCE LABEL
@@ -124,8 +255,10 @@ function buildPopupContent(
             "div"
         );
 
-    container.style.minWidth =
-        "235px";
+container.style.width = "235px";
+container.style.maxWidth = "100%";
+container.style.boxSizing = "border-box";
+container.style.overflowWrap = "anywhere";
 
     container.style.fontFamily =
         "Arial, sans-serif";
@@ -182,9 +315,9 @@ function buildPopupContent(
                 "div"
             );
 
-        row.style.marginBottom =
-            "4px";
-
+row.style.marginBottom = "4px";
+row.style.whiteSpace = "normal";
+row.style.overflowWrap = "anywhere";
 
         const labelElement =
             document.createElement(
@@ -456,40 +589,34 @@ function addEvidenceLegend(
     // LEVELS
     // --------------------------------------------------
 
+
     const levels = [
-
-        {
-            strength: 20,
-            label: "Limited",
-            color: "#9E9E9E"
-        },
-
-        {
-            strength: 40,
-            label: "Low",
-            color: "#42A5F5"
-        },
-
-        {
-            strength: 60,
-            label: "Moderate",
-            color: "#FBC02D"
-        },
-
-        {
-            strength: 80,
-            label: "Strong",
-            color: "#F57C00"
-        },
-
-        {
-            strength: 100,
-            label: "Very Strong",
-            color: "#D32F2F"
-        }
-
+    {
+        strength: 20,
+        label: "Limited",
+        color: "#BBDEFB"
+    },
+    {
+        strength: 40,
+        label: "Low",
+        color: "#90CAF9"
+    },
+    {
+        strength: 60,
+        label: "Moderate",
+        color: "#42A5F5"
+    },
+    {
+        strength: 80,
+        label: "Strong",
+        color: "#1E88E5"
+    },
+    {
+        strength: 100,
+        label: "Very Strong",
+        color: "#1565C0"
+    }
     ];
-
 
     levels.forEach(
         level => {
@@ -529,10 +656,10 @@ function addEvidenceLegend(
                         "50%",
 
                     background:
-                        level.color,
+                        "transparent",
 
                     border:
-                        "2px solid white",
+                        `3px solid ${level.color}`,
 
                     boxShadow:
                         "0 0 0 1px #555",
@@ -730,88 +857,46 @@ export function addEventLayer(
     );
 
 
-    // --------------------------------------------------
-    // CONFIDENCE / EVIDENCE CIRCLE
-    // --------------------------------------------------
 
-    map.addLayer({
+// --------------------------------------------------
+// EVIDENCE RING
+// --------------------------------------------------
 
-        id:
-            "events-evidence-circle",
+loadEvidenceRingIcons(map);
 
-        type:
-            "circle",
+map.addLayer({
 
-        source:
-            "events",
+    id:
+        "events-evidence-circle",
 
-        paint: {
+    type:
+        "symbol",
 
-            /*
-             * Fixed halo size.
-             *
-             * Evidence Strength is represented
-             * primarily by colour rather than
-             * geographical size.
-             */
+    source:
+        "events",
 
-            "circle-radius":
-                15,
+    layout: {
 
+        "icon-image":
+            getEvidenceRingImage(),
 
-            /*
-             * Confidence colour.
-             */
+        /*
+         * Ring has its own fixed size.
+         * Weather icon size remains unchanged.
+         */
 
-            "circle-color": [
+        "icon-size":
+            1,
 
-                "step",
+        "icon-allow-overlap":
+            true,
 
-                [
-                    "coalesce",
-                    [
-                        "get",
-                        "evidence_strength"
-                    ],
-                    20
-                ],
+        "icon-ignore-placement":
+            true
 
-                "#9E9E9E",
+    }
 
-                40,
-                "#42A5F5",
-
-                60,
-                "#FBC02D",
-
-                80,
-                "#F57C00",
-
-                100,
-                "#D32F2F"
-
-            ],
-
-
-            "circle-opacity":
-                0.88,
-
-
-            /*
-             * White inner boundary helps
-             * weather icons remain readable.
-             */
-
-            "circle-stroke-width":
-                2,
-
-            "circle-stroke-color":
-                "#ffffff"
-
-        }
-
-    });
-
+});
 
     // --------------------------------------------------
     // WEATHER EVENT ICON

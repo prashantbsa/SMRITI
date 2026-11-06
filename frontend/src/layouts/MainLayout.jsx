@@ -23,6 +23,7 @@ import MapView from "../components/Map/MapView";
 import ContextPanel from "../components/ContextPanel/ContextPanel";
 import Timeline from "../components/Timeline/Timeline";
 import Leaderboard from "../components/Leaderboard/Leaderboard";
+import Statistics from "../components/Statistics/Statistics";
 import UserManagement from "../components/Admin/UserManagement";
 import ObservationService
     from "../services/observationService";
@@ -497,13 +498,36 @@ export default function MainLayout({
                             </label>
 
 
+                            {/* STATISTICS */}
+
+                            <label
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "5px",
+                                    cursor: "pointer",
+                                    flexShrink: 0
+                                }}
+                            >
+                                <input
+                                    type="radio"
+                                    checked={viewMode === "statistics"}
+                                    onChange={() =>
+                                        setViewMode("statistics")
+                                    }
+                                />
+
+                                <span>Statistics</span>
+                            </label>
+
+
                             {/* ==================================
                                 TABLET / MOBILE CONTROLS
                             ================================== */}
 
                             {compactLayout &&
-                                viewMode !==
-                                    "leaderboard" && (
+                                viewMode !== "leaderboard" &&
+                                viewMode !== "statistics" && (
 
                                 <Box
                                     sx={{
@@ -592,7 +616,19 @@ export default function MainLayout({
                             LEADERBOARD MODE
                         ====================================== */}
 
-                        {viewMode === "leaderboard" ? (
+                        {viewMode === "statistics" ? (
+
+                            <Box
+                                sx={{
+                                    flex: 1,
+                                    minHeight: 0,
+                                    overflow: "hidden"
+                                }}
+                            >
+                                <Statistics />
+                            </Box>
+
+                        ) : viewMode === "leaderboard" ? (
 
                             <Box
                                 sx={{
@@ -721,7 +757,8 @@ export default function MainLayout({
                         DESKTOP RIGHT CONTEXT PANEL
                     ========================================== */}
 
-                    {!compactLayout && (
+                    {!compactLayout &&
+                        viewMode !== "statistics" && (
 
                         <Box
                             sx={{

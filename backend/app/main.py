@@ -19,6 +19,10 @@ from app.api.leaderboard import (
     router as leaderboard_router,
 )
 
+from app.api.statistics import (
+    router as statistics_router,
+)
+
 from app.api.auth import (
     router as auth_router,
 )
@@ -71,6 +75,10 @@ app.include_router(
 
 app.include_router(
     leaderboard_router
+)
+
+app.include_router(
+    statistics_router
 )
 
 app.include_router(

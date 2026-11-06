@@ -1,44 +1,29 @@
-export function buildStatistics(reports) {
+class StatisticsService {
+    async getStatistics(source = "ALL") {
+        const url =
+            `/api/statistics/?source=${encodeURIComponent(source)}`;
 
-    const stateCounts = {};
-    const eventCounts = {};
+        const response = await fetch(url, {
+            credentials: "include"
+        });
 
-    reports.forEach(report => {
+        if (!response.ok) {
+            let message = "Unable to load statistics.";
 
-        // ---------- State statistics ----------
-        const state = report.state || "Unknown";
+            try {
+                const errorData = await response.json();
+                message =
+                    errorData.detail || message;
+            } catch {
+                // Keep the default message if the response
+                // is not JSON.
+            }
 
-        stateCounts[state] =
-            (stateCounts[state] || 0) + 1;
+            throw new Error(message);
+        }
 
-        // ---------- Weather event statistics ----------
-        report.event_name
-            .split(",")
-            .forEach(event => {
-
-                const e = event.trim();
-
-                eventCounts[e] =
-                    (eventCounts[e] || 0) + 1;
-
-            });
-
-    });
-
-    return {
-
-        totalReports: reports.length,
-
-        totalStates: Object.keys(stateCounts).length,
-
-        states:
-            Object.entries(stateCounts)
-                .sort((a,b)=>b[1]-a[1]),
-
-        events:
-            Object.entries(eventCounts)
-                .sort((a,b)=>b[1]-a[1])
-
-    };
-
+        return response.json();
+    }
 }
+
+export default new StatisticsService();
